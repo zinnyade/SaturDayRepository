@@ -76,7 +76,7 @@ bool Player::Init()
 	//âÊëúì«Ç›çûÇ›
 
 	int result = LoadDivGraph(Config::PLAYER_IMAGE_PATH, Config::ANIM_PATTERN_NUM * Config::ANIM_TYPE_NUM,
-		Config::ANIM_PATTERN_NUM, Config::ANIM_PATTERN_NUM, Config::PLAYER_IMAGE_SIZE_X, Config::PLAYER_IMAGE_SIZE_Y, playerImg);
+		Config::ANIM_PATTERN_NUM, Config::ANIM_TYPE_NUM, Config::PLAYER_IMAGE_SIZE_X, Config::PLAYER_IMAGE_SIZE_Y, playerImg);
 
     if (result != 0)
     {
