@@ -6,7 +6,7 @@
 
 Map::Map()
 {
-	for (int i = 0; i < Config::MAP_IMG_X_NUM * Config;; MAP_IMG_Y_NUM; i++)
+	for (int i = 0; i < Config::MAP_IMG_X_NUM * Config:: MAP_IMG_Y_NUM; i++)
 	{
 		mapChipImg[i] = -1;
 	}

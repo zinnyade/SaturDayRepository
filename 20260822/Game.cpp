@@ -32,6 +32,12 @@ bool Game::Init()
 		return false;
 	}
 
+	//Map初期化
+	if (!map.Init())
+	{
+		return false;
+	}
+
 	//タイマー初期化
 
 	nowCount = GetNowCount();
