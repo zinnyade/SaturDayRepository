@@ -3,38 +3,53 @@
 
 #include <fstream>
 #include<sstream>
-#include<cmath>
+#include<string>
 
-//コンストラクタ
-Map::Map()
+Map::Map() : mapXNum(0), mapYNum(0), isInitialized(false)
 {
-	mapWidth = 0;
-	mapHeight = 0;
-	for (int i = 0; i < 64; i++)
+	for (int i = 0; i < Config::MAP_CHIP_IMAGE_COUNT; i++)
 	{
-		chipImage[i] = -1;
+		chipImages[i] = -1;
 	}
+
 }
 
-bool Map::LoadCSV(const char* fileName, std::vector < std::vector<int>>& data)
+Map::~Map()
 {
-	std::ifstream file(fileName);
+	Finalize();
+}
 
-	if (!file.is_open())
+//初期化
+bool Map::Init()
+{
+	Finalize();
+
+	//画像をチップ単位に分割して読み込み
+	if (LoadDivGraph(Config::MAP_CHIP_IMAGE_PATH,
+		Config::MAP_CHIP_IMAGE_COUNT,
+		Config::MAP_CHIP_IMAGE_COLUMNS,
+		Config::MAP_CHIP_IMAGE_ROWS,
+		Config::MAP_CHIP_SIZE,Config::MAP_CHIP_SIZE,chipImages) == -1)
 	{
+		Finalize();
 		return false;
 	}
-	data.clear();
 
-	std::string line;
-
-	while (std::getline(file, line))
+	//csvファイルの読み込み
+	if (!LoadMap(Config::MAP_BACK_CSV_PATH, backMap) ||
+		!LoadMap(Config::MAP_BASE_CSV_PATH, baseMap) ||
+		!LoadMap(Config::MAP_NEAR_CSV_PATH, nearMap))
 	{
-		std::vector<int> row;
-		std::stringstream ss(line);
-		std::string value;
-
-
+		Finalize();
+		return false;
 	}
+
+	isInitialized = true;
+	return true;
+
 }
 
+//マップの読み込み
+//描画レイヤー
+//描画フラグ
+//終了処理

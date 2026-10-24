@@ -1,63 +1,69 @@
 #pragma once
-
+#include "Config.h"
 #include<vector>
-#include<string>
 using namespace std;
 
 class Map
 {
 private:
-	//マップチップの番号
-	vector<vector<int>> mapDate;
-	//当たり判定の情報
-	vector<vector<int>> hitDate;
+	//ファイル読み込み
+	
+	/// <summary>
+	/// ロードマップ
+	/// </summary>
+	/// <param name="filepath">マップCSVファイルパス</param>
+	/// <param name="mapData">マップチップイメージ</param>
+	/// <returns>描画判定</returns>
+	bool LoadMap(const char* filepath, vector<vector<int>>& mapData);
 
-	//マップチップ画像
-	int chipImage[64];
+	/// <summary>
+	/// 描画レイヤー
+	/// </summary>
+	/// <param name="mapData">マップチップイメージ</param>
+	void DrawLayer(const vector<vector<int>>& mapData)const;
 
-	//マップの縦横のマスの数
-	int mapWidth;
-	int mapHeight;
+	/// <summary>
+	/// 描画フラグ
+	/// </summary>
+	/// <param name="mapX">X座標</param>
+	/// <param name="mapY">Y座標</param>
+	/// <returns>描画フラグ</returns>
+	bool IsValidMapPosition(int mapX, int mapY);
 
-	//マップの大きさ
-	static constexpr int CHIP_SIZE = 64;
+	int chipImages[Config::MAP_CHIP_IMAGE_COUNT];
 
-	//csvファイルの読み込み
-	bool LoadCSV(const char* fileName, vector<vector<int>>& date);
+	//マップの内容
+	vector<vector<int>> backMap;
+	vector<vector<int>> baseMap;
+	vector<vector<int>> nearMap;
+
+	int mapXNum;
+	int mapYNum;
+	bool isInitialized;
+
 public:
-	/// <summary>
-	/// Mapコンストラクタ
-	/// </summary>
+	//コンストラクタ
 	Map();
+	//デストラクタ
+	~Map();
+
+	//画像とCSVを読み込み
+
 	/// <summary>
-	/// 初期化
+	/// 画像読み込み初期化 
 	/// </summary>
-	/// <returns>読み込み不正</returns>
+	/// <returns>初期化内容</returns>
 	bool Init();
 
-	/// <summary>
-	/// マップの描画
-	/// </summary>
-	/// <param name="cameraX">カメラ座標X</param>
-	/// <param name="cameraY">カメラ座標Y</param>
-	void Draw(float cameraX, float cameraY);
-	
-	/// <summary>
-	/// 通行できるかどうか
-	/// </summary>
-	/// <param name="tileX">タイルX座標</param>
-	/// <param name="tileY">タイルY座標</param>
-	/// <returns>通行可能判定</returns>
-	bool IsSolid(int tileX,int tileY);
+	//マップを奥から手前の順に描画
 
 	/// <summary>
-	/// ワールド座標から当たり判定を調べる
+	/// 描画
 	/// </summary>
-	/// <param name="worldX">ワールド座標X</param>
-	/// <param name="worldY">ワールド座標Y</param>
-	/// <returns>ワールド座標当たり判定</returns>
-	bool IsSolidAt(float worldX, float worldY);
-	
+	void Draw()const;
+
+	//Dxlib終了前に呼び出して画像などを解放
+	void Finalize();
 
 };
 
