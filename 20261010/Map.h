@@ -14,7 +14,7 @@ private:
 	/// <param name="filepath">マップCSVファイルパス</param>
 	/// <param name="mapData">マップチップイメージ</param>
 	/// <returns>描画判定</returns>
-	bool LoadMap(const char* filepath, vector<vector<int>>& mapData);
+	bool LoadMap(const char* filePath, vector<vector<int>>& mapData);
 
 	/// <summary>
 	/// 描画レイヤー
@@ -28,7 +28,7 @@ private:
 	/// <param name="mapX">X座標</param>
 	/// <param name="mapY">Y座標</param>
 	/// <returns>描画フラグ</returns>
-	bool IsValidMapPosition(int mapX, int mapY);
+	bool IsValidMapPosition(int mapX, int mapY) const;
 
 	int chipImages[Config::MAP_CHIP_IMAGE_COUNT];
 
