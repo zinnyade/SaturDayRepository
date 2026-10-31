@@ -50,9 +50,9 @@ bool Map::Init()
 }
 
 //マップの読み込み
-bool LoadMap(const char* filePath, vector<vector<int>>& mapData)
+bool Map::LoadMap(const char* filePath, std::vector<std::vector<int>>& mapData)
 {
-	ifstream file(filePath);
+	std::ifstream file(filePath);
 
 	//ファイルのが開かなかった場合
 	if (!file.is_open())
@@ -62,7 +62,7 @@ bool LoadMap(const char* filePath, vector<vector<int>>& mapData)
 
 	mapData.clear();
 
-	string line;
+	std::string line;
 
 	//ファイルから文字列を1行ずつ取ってくる
 	while (getline(file, line))
@@ -72,13 +72,13 @@ bool LoadMap(const char* filePath, vector<vector<int>>& mapData)
 		{
 			continue;
 		}
-		vector<int>row;
-		stringstream lineStream(line);
-		string cell;
+		std::vector<int>row;
+		std::stringstream lineStream(line);
+		std::string cell;
 
 		while (getline(lineStream, cell))
 		{
-			stringstream cellStream(cell);
+			std::stringstream cellStream(cell);
 			int value = Config::MAP_EMPTY;
 
 			if (!(cellStream >> value))
@@ -105,6 +105,7 @@ bool LoadMap(const char* filePath, vector<vector<int>>& mapData)
 
 	return !mapData.empty();
 }
+
 //描画
 void Map::Draw() const
 {
@@ -118,7 +119,7 @@ void Map::Draw() const
 }
 
 //描画レイヤー
-void Map::DrawLayer(const vector<vector<int>>& mapData) const
+void Map::DrawLayer(const std::vector<std::vector<int>>& mapData) const
 {
 	for (int y = 0; y < static_cast<int>(mapData.size()); ++y)
 	{

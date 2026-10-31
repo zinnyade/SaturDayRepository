@@ -1,7 +1,7 @@
 #pragma once
 #include "Config.h"
+#include "Collision.h"
 #include<vector>
-using namespace std;
 
 class Map
 {
@@ -14,13 +14,13 @@ private:
 	/// <param name="filepath">マップCSVファイルパス</param>
 	/// <param name="mapData">マップチップイメージ</param>
 	/// <returns>描画判定</returns>
-	bool LoadMap(const char* filePath, vector<vector<int>>& mapData);
+	bool LoadMap(const char* filePath, std::vector<std::vector<int>>& mapData);
 
 	/// <summary>
 	/// 描画レイヤー
 	/// </summary>
 	/// <param name="mapData">マップチップイメージ</param>
-	void DrawLayer(const vector<vector<int>>& mapData)const;
+	void DrawLayer(const std::vector<std::vector<int>>& mapData)const;
 
 	/// <summary>
 	/// 描画フラグ
@@ -30,12 +30,33 @@ private:
 	/// <returns>描画フラグ</returns>
 	bool IsValidMapPosition(int mapX, int mapY) const;
 
+	/// <summary>
+	/// Collision矩形マップに合わせて押し戻す
+	/// </summary>
+	/// <param name="changeRect">Collisionチェック矩形</param>
+	void HitCalc(Collision& changeRect) const;
+
+	/// <summary>
+	/// 指定したマップ座標の当たり判定チップ番号を取得
+	/// </summary>
+	/// <param name="mapX">指定したマップ座標のX座標</param>
+	/// <param name="mapY">指定したマップ座標のY座標</param>
+	void GetBlockType(int mapX, int mapY)const;
+
+	/// <summary>
+	/// 指定チップの上下左右に空きがある方向を取得
+	/// </summary>
+	/// <param name="mapX"></param>
+	/// <param name="mapY"></param>
+	/// <returns></returns>
+	unsigned char GetBlockInfo(int mapX, int mapY) const;
+
 	int chipImages[Config::MAP_CHIP_IMAGE_COUNT];
 
 	//マップの内容
-	vector<vector<int>> backMap;
-	vector<vector<int>> baseMap;
-	vector<vector<int>> nearMap;
+	std::vector<std::vector<int>> backMap;
+	std::vector<std::vector<int>> baseMap;
+	std::vector<std::vector<int>> nearMap;
 
 	int mapXNum;
 	int mapYNum;
